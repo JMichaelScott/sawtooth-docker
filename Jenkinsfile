@@ -1,20 +1,25 @@
 
 
 pipeline {
-    agent any
     stages {
         stage('build') {
+	    agent any
             steps {
 		echo 'Building...'            
-	    	sh 'docker-compose -f 5-node-pbft.yaml up'
 	    }
         }
 	stage('test') {
+	    agent {
+		docker {
+		    image 'hello-world'
+		}
+	    }
 	    steps {
-		echo 'testing...'
+		echo 'Testing...'
 	    }
 	}
 	stage('deploy') {
+	    agent any
 	    steps {
 		echo 'deploying...'
 	    }
